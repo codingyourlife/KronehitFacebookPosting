@@ -21,7 +21,9 @@
 *.zip
 bin/
 obj/
-packages/
+
+/packages/*/
+
 
 # Logs and databases #
 ######################
