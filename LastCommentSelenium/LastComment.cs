@@ -15,14 +15,16 @@
 
         public DateTime SignOfLiving { get; private set; }
         public DateTime Deadline { get; private set; }
+        public bool IsSpamProtectionEnabled { get; private set; }
 
-        public LastComment(string url, string username, string password, DateTime deadline)
+        public LastComment (string url, string username, string password, DateTime deadline, bool isSpamProtectionEnabled)
         {
             this.Url = url;
             this.Username = username;
             this.Password = password;
             this.SignOfLiving = DateTime.Now;
             this.Deadline = deadline;
+            this.IsSpamProtectionEnabled = isSpamProtectionEnabled;
         }
 
         public void Run()
@@ -135,6 +137,11 @@
             if (reloadBeforeCheck)
             {
                 this.GoToPostingOrReload();
+            }
+
+            if(!IsSpamProtectionEnabled)
+            {
+                return false; //allways non-recent if no spam protection
             }
 
             var lastLiveTimestamp = this.GetLastLiveTimeStamp();

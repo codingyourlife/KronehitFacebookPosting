@@ -15,6 +15,7 @@
         public static string Password { get; private set; }
         public static string PostUrl { get; private set; }
         public static DateTime Deadline { get; private set; }
+        public static bool SpamProtection { get; private set; }
 
         static void Main(string[] args)
         {
@@ -22,16 +23,34 @@
             Console.Write("Post direct URL (e.g. https://www.facebook.com/kronehit/posts/10154953745216701):");
             PostUrl = Console.ReadLine();
 
-            Console.Write("Deadline (e.g. 24-08-2017):");
-            DateTime deadline;
-            DateTime.TryParse(Console.ReadLine(), out deadline);
-            Deadline = deadline;
+            Console.Write("Spam protection that avoids comments if high comment frequency (y/n): ");
+            SpamProtection = Console.ReadLine().ToLower() == "y";
+
+            if (SpamProtection)
+            {
+                Console.WriteLine("Info: Spam protection is on");
+            }
+            else
+            {
+                Console.WriteLine("Info: Spam protection is off");
+            }
 
             Console.Write("Facebook Username: ");
             Username = Console.ReadLine();
 
-            Console.Write("Facebook Password: ");
-            Password = Console.ReadLine();
+            while(string.IsNullOrEmpty(Password))
+            {
+                Console.Write("Facebook Password: ");
+                Password = ConsoleEx.HideCharacter();
+            }
+
+            DateTime deadline = default(DateTime);
+            while (deadline == default(DateTime))
+            {
+                Console.Write("Deadline (e.g. 24-08-2017):");
+                DateTime.TryParse(Console.ReadLine(), out deadline);
+                Deadline = deadline;
+            }
 
             Console.WriteLine("Starting shortly...");
 
@@ -78,7 +97,7 @@
                     //cleanup failed, not too bad...
                 }
 
-                LastComment = new LastComment("https://www.facebook.com/kronehit/posts/10154953745216701", Username, Password, new DateTime(2017, 08, 24));
+                LastComment = new LastComment("https://www.facebook.com/kronehit/posts/10154953745216701", Username, Password, new DateTime(2017, 08, 24), SpamProtection);
 
                 LastCommentThread = new Thread(() => { LastComment.Run(); });
                 LastCommentThread.Start();
