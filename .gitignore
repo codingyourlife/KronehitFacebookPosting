@@ -19,8 +19,8 @@
 *.rar
 *.tar
 *.zip
-*.pdb
-*.exe
+bin/
+obj/
 
 # Logs and databases #
 ######################
