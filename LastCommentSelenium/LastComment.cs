@@ -44,6 +44,7 @@
             {
                 ChromeOptions options = new ChromeOptions();
                 options.AddArgument("--disable-notifications");
+                options.AddArgument("--no-sandbox");
                 this.Driver = new ChromeDriver(options);
 
                 this.GoToPostingOrReload();
@@ -52,14 +53,16 @@
 
                 while (true)
                 {
-                    if(this.Deadline.Subtract(DateTime.Now).TotalMinutes < 0)
+                    this.SignOfLiving = DateTime.Now;
+
+                    if (this.Deadline.Subtract(DateTime.Now).TotalMinutes < 0)
                     {
                         Console.WriteLine("Deadline reached!");
                         //Deadline reached...
                         System.Diagnostics.Debugger.Break();
+                        break;
                     }
 
-                    this.SignOfLiving = DateTime.Now;
                     bool renewed = this.RenewComment();
 
                     if(!renewed)
