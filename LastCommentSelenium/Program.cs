@@ -89,6 +89,8 @@
                         LastCommentThread = null;
                         LastComment = null;
 
+                        GC.Collect();
+
                         Thread.Sleep(4000);
                     }
                 }
