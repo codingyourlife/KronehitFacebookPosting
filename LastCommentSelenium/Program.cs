@@ -47,7 +47,7 @@
             DateTime deadline = default(DateTime);
             while (deadline == default(DateTime))
             {
-                Console.Write("Deadline (e.g. 24-08-2017):");
+                Console.Write("Deadline (e.g. 24-08-2017 08:00):");
                 DateTime.TryParse(Console.ReadLine(), out deadline);
                 Deadline = deadline;
             }
@@ -88,9 +88,7 @@
                         LastCommentThread.Abort();
                         LastCommentThread = null;
                         LastComment = null;
-
-                        GC.Collect();
-
+                        
                         Thread.Sleep(4000);
                     }
                 }
